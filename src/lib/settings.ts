@@ -6,6 +6,8 @@ export const DEFAULT_SETTINGS = {
   "kalshi.extensionEnabled": true,
   "kalshi.oddsDisplayMode": "american",
   "kalshi.hideCharts": true,
+  "kalshi.feeDisplayMode": "taker",
+  "kalshi.customFeeRate": 0.07,
   "debug.enabled": false,
 } as const;
 
@@ -16,6 +18,8 @@ export const SITE_SETTINGS = {
     "kalshi.extensionEnabled",
     "kalshi.oddsDisplayMode",
     "kalshi.hideCharts",
+    "kalshi.feeDisplayMode",
+    "kalshi.customFeeRate",
   ],
 } as const;
 
@@ -26,6 +30,7 @@ export const SUPPORTED_SITES = {
 
 export type SiteName = keyof typeof SUPPORTED_SITES;
 export type DisplayMode = "american" | "price" | "both";
+export type FeeDisplayMode = "taker" | "raw" | "custom";
 
 /**
  * Detect which supported site the current tab is on

@@ -61,6 +61,9 @@ function setupMutationObserver(): void {
 
 function boot(): void {
   loadSettings().then(() => {
+    // Apply fee settings on initial load
+    convertAllPrices();
+
     if (getChartsHidden()) {
       hideChartsAndOptimizeLayout();
     }

@@ -1,4 +1,9 @@
-import { setDisplayMode, setChartsHidden } from "./settings.js";
+import {
+  setDisplayMode,
+  setChartsHidden,
+  setFeeDisplayMode,
+  setCustomFeeRate,
+} from "./settings.js";
 import {
   hideChartsAndOptimizeLayout,
   showChartsAndRestoreLayout,
@@ -21,6 +26,12 @@ export async function setupMessageListener(
         } else {
           showChartsAndRestoreLayout();
         }
+      } else if (message.type === "feeSettingsChanged") {
+        setFeeDisplayMode(message.mode);
+        if (message.mode === "custom" && message.customRate !== undefined) {
+          setCustomFeeRate(message.customRate);
+        }
+        debouncedConvert(); // Refresh all odds displays
       }
     });
   } catch (error) {

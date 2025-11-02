@@ -9,6 +9,9 @@ const displayMode = document.getElementById(
   "display-mode"
 ) as HTMLSelectElement;
 const hideCharts = document.getElementById("hide-charts") as HTMLInputElement;
+const rawOddsToggle = document.getElementById(
+  "raw-odds-toggle"
+) as HTMLInputElement;
 const kalshiOptions = document.getElementById(
   "kalshi-options"
 ) as HTMLDivElement;
@@ -50,6 +53,15 @@ function setupEventListeners(): void {
       hide: hideCharts.checked,
     });
   });
+
+  rawOddsToggle.addEventListener("change", async () => {
+    const newMode = rawOddsToggle.checked ? "raw" : "taker";
+    await settingsManager.saveSetting("feeDisplayMode", newMode);
+    await notifyContentScripts({
+      type: "feeSettingsChanged",
+      mode: newMode,
+    });
+  });
 }
 
 // Initialize popup
@@ -74,6 +86,12 @@ async function initialize(): Promise<void> {
   toggle.checked = settings[enabledKey] !== false;
   displayMode.value = settings[modeKey] || "american";
   hideCharts.checked = settings[chartsKey] !== false;
+
+  // Fee settings
+  const feeKey = site ? `${site}.feeDisplayMode` : "global.feeDisplayMode";
+  const currentMode = settings[feeKey] || "taker";
+  rawOddsToggle.checked = currentMode === "raw";
+  rawOddsToggle.disabled = currentMode === "custom"; // Disable if custom mode active
 
   // Setup event listeners
   setupEventListeners();

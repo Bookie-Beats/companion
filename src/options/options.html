@@ -64,6 +64,40 @@
               Hide price charts to focus on current odds
             </p>
           </div>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              Fee Display Mode:
+              <select id="kalshi-fee-mode" class="setting-select">
+                <option value="taker">With Fee Cushion (7%)</option>
+                <option value="raw">Raw Odds (No Cushion)</option>
+                <option value="custom">Custom Fee Rate</option>
+              </select>
+            </label>
+            <p class="setting-description">
+              <strong>With Fee Cushion:</strong> Shows odds adjusted for Kalshi's 7% settlement fee (default).<br>
+              <strong>Raw Odds:</strong> Shows true market probability without fee adjustment.<br>
+              <strong>Note:</strong> Kalshi charges 7% on profitable positions regardless of maker/taker status.
+            </p>
+          </div>
+
+          <div class="setting-group" id="custom-fee-group" style="display: none;">
+            <label class="setting-label">
+              Custom Fee Rate:
+              <input
+                id="kalshi-custom-fee"
+                type="number"
+                min="0"
+                max="0.10"
+                step="0.01"
+                value="0.07"
+                class="setting-input"
+              />
+            </label>
+            <p class="setting-description">
+              Enter custom fee rate (0.00 = no cushion, 0.07 = 7% standard, max 0.10 = 10%)
+            </p>
+          </div>
         </div>
 
         <div class="site-settings future-site">
