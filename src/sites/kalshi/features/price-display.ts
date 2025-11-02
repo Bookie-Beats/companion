@@ -28,12 +28,16 @@ export function processElement(element: Element): void {
   const htmlElement = element as HTMLElement;
   let odds: string;
 
+  // Check if this is an average price element (fees already included)
+  const isAveragePrice =
+    htmlElement.closest("div")?.textContent?.includes("Average price") || false;
+
   if (centMatch) {
     const cents = parseFloat(centMatch[1]);
-    odds = convertToOdds(cents, true);
+    odds = convertToOdds(cents, !isAveragePrice); // Don't include fees if it's average price
   } else if (percentMatch) {
     const percentage = parseFloat(percentMatch[1]);
-    odds = convertToOdds(percentage, true);
+    odds = convertToOdds(percentage, !isAveragePrice); // Don't include fees if it's average price
   } else {
     return;
   }
@@ -47,12 +51,12 @@ export function processElement(element: Element): void {
           originalText;
         if (centMatch) {
           textNode.textContent = originalText.replace(
-            /\d{1,2}(?:\.\d)?¢/,
+            /\d{1,2}(?:\.\d+)?¢/,
             odds
           );
         } else if (percentMatch) {
           textNode.textContent = originalText.replace(
-            /\d{1,2}(?:\.\d)?% chance/,
+            /\d{1,2}(?:\.\d+)?% chance/,
             odds
           );
         }
@@ -82,13 +86,17 @@ export function updateElementDisplay(
 
   if (!centMatch && !percentMatch) return;
 
+  // Check if this is an average price element (fees already included)
+  const isAveragePrice =
+    element.closest("div")?.textContent?.includes("Average price") || false;
+
   let odds: string;
   if (centMatch) {
     const cents = parseFloat(centMatch[1]);
-    odds = convertToOdds(cents, true);
+    odds = convertToOdds(cents, !isAveragePrice); // Don't include fees if it's average price
   } else if (percentMatch) {
     const percentage = parseFloat(percentMatch[1]);
-    odds = convertToOdds(percentage, true);
+    odds = convertToOdds(percentage, !isAveragePrice); // Don't include fees if it's average price
   } else {
     return;
   }
@@ -102,10 +110,10 @@ export function updateElementDisplay(
   switch (currentDisplayMode) {
     case "american":
       if (centMatch) {
-        textNode.textContent = originalText.replace(/\d{1,2}(?:\.\d)?¢/, odds);
+        textNode.textContent = originalText.replace(/\d{1,2}(?:\.\d+)?¢/, odds);
       } else if (percentMatch) {
         textNode.textContent = originalText.replace(
-          /\d{1,2}(?:\.\d)?% chance/,
+          /\d{1,2}(?:\.\d+)?% chance/,
           odds
         );
       }

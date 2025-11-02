@@ -30,8 +30,8 @@ export const DATA_ATTRIBUTES = {
 } as const;
 
 export const REGEX_PATTERNS = {
-  CENTS: /(\d{1,2}(?:\.\d)??)¢/,
-  PERCENTAGE: /(\d{1,2}(?:\.\d)?)% chance/,
+  CENTS: /(\d{1,2}(?:\.\d+)?)¢/,
+  PERCENTAGE: /(\d{1,2}(?:\.\d+)?)% chance/,
   TEAM_NAMES: /([\w\s.'-]+?)\s+(?:vs?\.?|@|v|at)\s+([\w\s.'-]+)/i,
   CONTENT_TEAM_NAMES: /([\w\s.'-]+?)\s+(?:vs?\.?|@|against|at)\s+([\w\s.'-]+)/i,
   SPREAD_MAIN:
