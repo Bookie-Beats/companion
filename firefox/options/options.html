@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bookie Beats Companion — Options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Bookie Beats Companion Options</h1>
+
+      <!-- Global Settings -->
+      <section class="settings-section">
+        <h2>Global Settings</h2>
+        <div class="setting-group">
+          <label class="setting-label">
+            <input id="global-enabled" type="checkbox" checked />
+            Enable Extension Globally
+          </label>
+          <p class="setting-description">
+            Master toggle for the entire extension
+          </p>
+        </div>
+      </section>
+
+      <!-- Site-specific Settings -->
+      <section class="settings-section">
+        <h2>Site-Specific Settings</h2>
+
+        <!-- Kalshi Settings -->
+        <div class="site-settings" data-site="kalshi">
+          <h3>
+            <img src="../assets/icon16.png" alt="Kalshi" class="site-icon" />
+            Kalshi.com
+          </h3>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              <input id="kalshi-enabled" type="checkbox" checked />
+              Enable for Kalshi
+            </label>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              Odds Display Format:
+              <select id="kalshi-display-mode" class="setting-select">
+                <option value="both">Both (77¢ (-334))</option>
+                <option value="american">American Odds (-334)</option>
+                <option value="price">Price Only (77¢)</option>
+              </select>
+            </label>
+            <p class="setting-description">
+              Choose how odds are displayed on Kalshi
+            </p>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              <input id="kalshi-hide-charts" type="checkbox" checked />
+              Hide Line History Charts
+            </label>
+            <p class="setting-description">
+              Hide price charts to focus on current odds
+            </p>
+          </div>
+        </div>
+
+        <div class="site-settings future-site">
+          <h3>
+            <span class="site-icon">�</span>
+            Additional Betting Sites
+          </h3>
+          <p class="setting-description">
+            More betting platforms will be supported in future updates. Each
+            will have customizable odds formats, display options, and
+            site-specific features.
+          </p>
+        </div>
+
+        <div class="site-settings future-site">
+          <h3>
+            <span class="site-icon">🎯</span>
+            DraftKings (Coming Soon)
+          </h3>
+          <p class="setting-description">
+            Settings for DraftKings Sportsbook will be available in a future
+            update.
+          </p>
+        </div>
+
+        <div class="site-settings future-site">
+          <h3>
+            <span class="site-icon">🏆</span>
+            FanDuel (Coming Soon)
+          </h3>
+          <p class="setting-description">
+            Settings for FanDuel Sportsbook will be available in a future
+            update.
+          </p>
+        </div>
+      </section>
+
+      <!-- Advanced Settings -->
+      <section class="settings-section">
+        <h2>Advanced</h2>
+
+        <div class="setting-group">
+          <label class="setting-label">
+            Debug Mode
+            <input id="debug-mode" type="checkbox" />
+          </label>
+          <p class="setting-description">
+            Enable additional logging for troubleshooting
+          </p>
+        </div>
+
+        <div class="setting-group">
+          <button id="reset-settings" class="reset-button">
+            Reset All Settings to Default
+          </button>
+          <p class="setting-description">
+            This will clear all saved preferences
+          </p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="options-footer">
+        <p>
+          <strong>Bookie Beats Companion</strong> - Open source, independent
+          third-party extension
+        </p>
+        <p>
+          <a href="https://github.com/bookie-beats/companion" target="_blank"
+            >View on GitHub</a
+          >
+        </p>
+      </footer>
+    </main>
+    <script type="module" src="../options.js"></script>
+  </body>
+</html>
