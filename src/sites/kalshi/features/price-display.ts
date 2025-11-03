@@ -164,7 +164,7 @@ export function checkAndUpdateElement(element: HTMLElement): boolean {
   return false;
 }
 
-export function convertAllPrices(): void {
+export function convertAllPrices(forceUpdate: boolean = false): void {
   if (!getExtensionEnabled()) return;
 
   const elements = document.querySelectorAll(SELECTORS.PRICE_ELEMENTS);
@@ -177,7 +177,9 @@ export function convertAllPrices(): void {
       const originalText =
         htmlElement.dataset[DATA_ATTRIBUTES.ORIGINAL_TEXT.toLowerCase()];
 
+      // Force update when fee settings change
       if (
+        forceUpdate ||
         wasUpdated ||
         !htmlElement.dataset[DATA_ATTRIBUTES.PROCESSED.toLowerCase()]
       ) {

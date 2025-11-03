@@ -1,4 +1,8 @@
-import { CSS_CLASSES, DATA_ATTRIBUTES } from "../config/constants.js";
+import {
+  CSS_CLASSES,
+  DATA_ATTRIBUTES,
+  REGEX_PATTERNS,
+} from "../config/constants.js";
 
 export function findAndReplaceTextNode(
   element: Element,
@@ -87,12 +91,21 @@ export function clearAllAnnotations(): void {
 
       const originalText =
         htmlEl.dataset[DATA_ATTRIBUTES.ORIGINAL_TEXT.toLowerCase()];
+      const textNode = htmlEl.firstChild;
+      const currentText = textNode?.textContent ?? "";
+
+      const hasRawPrice =
+        REGEX_PATTERNS.CENTS.test(currentText) ||
+        REGEX_PATTERNS.PERCENTAGE.test(currentText);
+
       if (originalText) {
-        const textNode = htmlEl.firstChild;
-        if (textNode?.nodeType === Node.TEXT_NODE) {
+        if (hasRawPrice && currentText !== originalText) {
+          htmlEl.dataset[DATA_ATTRIBUTES.ORIGINAL_TEXT.toLowerCase()] =
+            currentText;
+        } else if (textNode?.nodeType === Node.TEXT_NODE) {
           textNode.textContent = originalText;
+          delete htmlEl.dataset[DATA_ATTRIBUTES.ORIGINAL_TEXT.toLowerCase()];
         }
-        delete htmlEl.dataset[DATA_ATTRIBUTES.ORIGINAL_TEXT.toLowerCase()];
       }
 
       delete htmlEl.dataset[DATA_ATTRIBUTES.PROCESSED.toLowerCase()];

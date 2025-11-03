@@ -19,6 +19,15 @@ const kalshiDisplayMode = document.getElementById(
 const kalshiHideCharts = document.getElementById(
   "kalshi-hide-charts"
 ) as HTMLInputElement;
+const kalshiFeeMode = document.getElementById(
+  "kalshi-fee-mode"
+) as HTMLSelectElement;
+const kalshiCustomFee = document.getElementById(
+  "kalshi-custom-fee"
+) as HTMLInputElement;
+const customFeeGroup = document.getElementById(
+  "custom-fee-group"
+) as HTMLDivElement;
 const debugMode = document.getElementById("debug-mode") as HTMLInputElement;
 const resetButton = document.getElementById(
   "reset-settings"
@@ -39,6 +48,10 @@ async function loadSettings(): Promise<void> {
     kalshiEnabled.checked = settings["kalshi.extensionEnabled"] !== false;
     kalshiDisplayMode.value = settings["kalshi.oddsDisplayMode"] || "american";
     kalshiHideCharts.checked = settings["kalshi.hideCharts"] !== false;
+    kalshiFeeMode.value = settings["kalshi.feeDisplayMode"] || "taker";
+    kalshiCustomFee.value = String(settings["kalshi.customFeeRate"] ?? 0.07);
+    customFeeGroup.style.display =
+      kalshiFeeMode.value === "custom" ? "block" : "none";
 
     console.log("Settings loaded:", settings);
   } catch (error) {
@@ -100,6 +113,36 @@ function setupEventListeners(): void {
       type: "hideChartsChanged",
       hide: kalshiHideCharts.checked,
     });
+  });
+
+  kalshiFeeMode.addEventListener("change", async () => {
+    await saveSetting("kalshi.feeDisplayMode", kalshiFeeMode.value);
+    customFeeGroup.style.display =
+      kalshiFeeMode.value === "custom" ? "block" : "none";
+    await notifyContentScripts({
+      type: "feeSettingsChanged",
+      mode: kalshiFeeMode.value,
+      customRate: parseFloat(kalshiCustomFee.value),
+    });
+  });
+
+  kalshiCustomFee.addEventListener("change", async () => {
+    // Clamp to [0, 0.10]
+    const rate = Math.max(
+      0,
+      Math.min(0.1, parseFloat(kalshiCustomFee.value) || 0.07)
+    );
+    kalshiCustomFee.value = rate.toFixed(2);
+    await saveSetting("kalshi.customFeeRate", rate);
+
+    // Only notify if custom mode is active
+    if (kalshiFeeMode.value === "custom") {
+      await notifyContentScripts({
+        type: "feeSettingsChanged",
+        mode: "custom",
+        customRate: rate,
+      });
+    }
   });
 
   // Reset button

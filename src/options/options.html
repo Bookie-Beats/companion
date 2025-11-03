@@ -64,6 +64,42 @@
               Hide price charts to focus on current odds
             </p>
           </div>
+
+          <div class="setting-group">
+            <label class="setting-label">
+              Fee Display Mode:
+              <select id="kalshi-fee-mode" class="setting-select">
+                <option value="taker">Taker (0.07 coefficient)</option>
+                <option value="maker">Maker (0.0175 coefficient)</option>
+                <option value="raw">Raw Odds (0.00 - no fees)</option>
+                <option value="custom">Custom Coefficient</option>
+              </select>
+            </label>
+            <p class="setting-description">
+              <strong>Taker:</strong> Instant fills pay 0.07 × P × (1-P). Max ~1.75¢ at 50/50 odds.<br>
+              <strong>Maker:</strong> Limit orders pay 0.0175 × P × (1-P) on some markets. Max ~0.44¢ at 50/50 odds.<br>
+              <strong>Raw Odds:</strong> True market probability, no fee adjustment.<br>
+              <strong>Note:</strong> Some markets have maker fees, others don't. Check <a href="https://kalshi.com/fee-schedule" target="_blank">kalshi.com/fee-schedule</a>.
+            </p>
+          </div>
+
+          <div class="setting-group" id="custom-fee-group" style="display: none;">
+            <label class="setting-label">
+              Custom Fee Coefficient:
+              <input
+                id="kalshi-custom-fee"
+                type="number"
+                min="0"
+                max="0.10"
+                step="0.01"
+                value="0.07"
+                class="setting-input"
+              />
+            </label>
+            <p class="setting-description">
+              Enter custom coefficient for fee calculation (0.00 = no cushion, 0.07 = Kalshi standard, max 0.10). Fee formula: coefficient × P × (1-P).
+            </p>
+          </div>
         </div>
 
         <div class="site-settings future-site">
