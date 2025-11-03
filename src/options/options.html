@@ -69,21 +69,21 @@
             <label class="setting-label">
               Fee Display Mode:
               <select id="kalshi-fee-mode" class="setting-select">
-                <option value="taker">With Fee Cushion (7%)</option>
+                <option value="taker">With Fee Cushion (Standard)</option>
                 <option value="raw">Raw Odds (No Cushion)</option>
-                <option value="custom">Custom Fee Rate</option>
+                <option value="custom">Custom Fee Coefficient</option>
               </select>
             </label>
             <p class="setting-description">
-              <strong>With Fee Cushion:</strong> Shows odds adjusted for Kalshi's 7% settlement fee (default).<br>
+              <strong>With Fee Cushion:</strong> Adjusts odds using Kalshi's fee formula: 0.07 × probability × (1 - probability). Maximum impact at 50/50 contracts (~1.75¢), minimal for long shots/favorites.<br>
               <strong>Raw Odds:</strong> Shows true market probability without fee adjustment.<br>
-              <strong>Note:</strong> Kalshi charges 7% on profitable positions regardless of maker/taker status.
+              <strong>Note:</strong> Maker orders (limit orders on the book) pay no fees. Taker orders (instant fills) pay variable fees based on contract probability.
             </p>
           </div>
 
           <div class="setting-group" id="custom-fee-group" style="display: none;">
             <label class="setting-label">
-              Custom Fee Rate:
+              Custom Fee Coefficient:
               <input
                 id="kalshi-custom-fee"
                 type="number"
@@ -95,7 +95,7 @@
               />
             </label>
             <p class="setting-description">
-              Enter custom fee rate (0.00 = no cushion, 0.07 = 7% standard, max 0.10 = 10%)
+              Enter custom coefficient for fee calculation (0.00 = no cushion, 0.07 = Kalshi standard, max 0.10). Fee formula: coefficient × P × (1-P).
             </p>
           </div>
         </div>
