@@ -62,7 +62,9 @@ export function getFeeDisplayMode(): FeeDisplayMode {
 export function getEffectiveFeeRate(): number {
   switch (feeDisplayMode) {
     case "taker":
-      return 0.07; // Standard 7% settlement fee display
+      return 0.07; // Taker fee coefficient: 0.07 × P × (1-P)
+    case "maker":
+      return 0.0175; // Maker fee coefficient: 0.0175 × P × (1-P) (25% of taker)
     case "raw":
       return 0.0; // No fee cushion (raw market probability)
     case "custom":

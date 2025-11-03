@@ -9,9 +9,9 @@ const displayMode = document.getElementById(
   "display-mode"
 ) as HTMLSelectElement;
 const hideCharts = document.getElementById("hide-charts") as HTMLInputElement;
-const rawOddsToggle = document.getElementById(
-  "raw-odds-toggle"
-) as HTMLInputElement;
+const feeModeSelect = document.getElementById(
+  "fee-mode-select"
+) as HTMLSelectElement;
 const kalshiOptions = document.getElementById(
   "kalshi-options"
 ) as HTMLDivElement;
@@ -54,12 +54,11 @@ function setupEventListeners(): void {
     });
   });
 
-  rawOddsToggle.addEventListener("change", async () => {
-    const newMode = rawOddsToggle.checked ? "raw" : "taker";
-    await settingsManager.saveSetting("feeDisplayMode", newMode);
+  feeModeSelect.addEventListener("change", async () => {
+    await settingsManager.saveSetting("feeDisplayMode", feeModeSelect.value);
     await notifyContentScripts({
       type: "feeSettingsChanged",
-      mode: newMode,
+      mode: feeModeSelect.value,
     });
   });
 }
@@ -90,8 +89,15 @@ async function initialize(): Promise<void> {
   // Fee settings
   const feeKey = site ? `${site}.feeDisplayMode` : "global.feeDisplayMode";
   const currentMode = settings[feeKey] || "taker";
-  rawOddsToggle.checked = currentMode === "raw";
-  rawOddsToggle.disabled = currentMode === "custom"; // Disable if custom mode active
+
+  // Set dropdown value, default to taker if custom mode
+  if (currentMode === "custom") {
+    feeModeSelect.value = "taker"; // Default to taker for custom mode
+    feeModeSelect.disabled = true; // Disable dropdown when custom mode active
+  } else {
+    feeModeSelect.value = currentMode;
+    feeModeSelect.disabled = false;
+  }
 
   // Setup event listeners
   setupEventListeners();

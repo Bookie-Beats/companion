@@ -30,7 +30,7 @@ export const SUPPORTED_SITES = {
 
 export type SiteName = keyof typeof SUPPORTED_SITES;
 export type DisplayMode = "american" | "price" | "both";
-export type FeeDisplayMode = "taker" | "raw" | "custom";
+export type FeeDisplayMode = "taker" | "maker" | "raw" | "custom";
 
 /**
  * Detect which supported site the current tab is on
