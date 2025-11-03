@@ -26,6 +26,7 @@ export function createOddsSpan(odds: string, textNode: Text): void {
   const oddsSpan = document.createElement("span");
   oddsSpan.className = CSS_CLASSES.ODDS_SPAN;
   oddsSpan.style.marginLeft = "4px";
+  oddsSpan.style.pointerEvents = "none";
   oddsSpan.textContent = `(${odds})`;
 
   textNode.parentNode.insertBefore(oddsSpan, textNode.nextSibling);
