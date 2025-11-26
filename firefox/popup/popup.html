@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bookie Beats Companion</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Bookie Beats Companion</h1>
+
+      <!-- Generic options (shown for all sites) -->
+      <div id="generic-options">
+        <label
+          ><input id="toggle-anno" type="checkbox" checked /> Enable
+          Extension</label
+        >
+      </div>
+
+      <!-- Kalshi-specific options -->
+      <div id="kalshi-options" style="display: none">
+        <h3>Kalshi Options</h3>
+        <label>
+          Odds Format:
+          <select id="display-mode">
+            <option value="both">Both (77¢ (-334))</option>
+            <option value="american">American Odds (-334)</option>
+            <option value="price">Price Only (77¢)</option>
+          </select>
+        </label>
+        <label
+          ><input id="hide-charts" type="checkbox" checked /> Hide Line History
+          Charts</label
+        >
+        <label>
+          Fee Mode:
+          <select id="fee-mode-select">
+            <option value="taker">Taker (0.07)</option>
+            <option value="maker">Maker (0.0175)</option>
+            <option value="raw">Raw (0.00)</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Site detection info -->
+      <div id="site-info" class="hint"></div>
+
+      <div class="hint">Open source. Independent third-party extension.</div>
+    </main>
+    <script type="module" src="../popup.js"></script>
+  </body>
+</html>
