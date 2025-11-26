@@ -1,4 +1,5 @@
-import { FEE_RATE, EDGE_CASE_ODDS } from "../config/constants.js";
+import { EDGE_CASE_ODDS } from "../config/constants.js";
+import { getEffectiveFeeRate } from "./settings.js";
 
 export function convertToOdds(
   value: number,
@@ -7,7 +8,8 @@ export function convertToOdds(
   let probability = value / 100;
 
   if (includeFees) {
-    const feePerContract = FEE_RATE * probability * (1 - probability);
+    const feeRate = getEffectiveFeeRate();
+    const feePerContract = feeRate * probability * (1 - probability);
     probability = probability + feePerContract;
   }
 

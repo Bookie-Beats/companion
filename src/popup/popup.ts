@@ -9,6 +9,9 @@ const displayMode = document.getElementById(
   "display-mode"
 ) as HTMLSelectElement;
 const hideCharts = document.getElementById("hide-charts") as HTMLInputElement;
+const feeModeSelect = document.getElementById(
+  "fee-mode-select"
+) as HTMLSelectElement;
 const kalshiOptions = document.getElementById(
   "kalshi-options"
 ) as HTMLDivElement;
@@ -50,6 +53,14 @@ function setupEventListeners(): void {
       hide: hideCharts.checked,
     });
   });
+
+  feeModeSelect.addEventListener("change", async () => {
+    await settingsManager.saveSetting("feeDisplayMode", feeModeSelect.value);
+    await notifyContentScripts({
+      type: "feeSettingsChanged",
+      mode: feeModeSelect.value,
+    });
+  });
 }
 
 // Initialize popup
@@ -74,6 +85,19 @@ async function initialize(): Promise<void> {
   toggle.checked = settings[enabledKey] !== false;
   displayMode.value = settings[modeKey] || "american";
   hideCharts.checked = settings[chartsKey] !== false;
+
+  // Fee settings
+  const feeKey = site ? `${site}.feeDisplayMode` : "global.feeDisplayMode";
+  const currentMode = settings[feeKey] || "taker";
+
+  // Set dropdown value, default to taker if custom mode
+  if (currentMode === "custom") {
+    feeModeSelect.value = "taker"; // Default to taker for custom mode
+    feeModeSelect.disabled = true; // Disable dropdown when custom mode active
+  } else {
+    feeModeSelect.value = currentMode;
+    feeModeSelect.disabled = false;
+  }
 
   // Setup event listeners
   setupEventListeners();
